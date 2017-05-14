@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"></meta>
+ <head>
+ <body>
+  RELATÓRIO
+  <br>
+  <br>
+   O objetivo deste trabalho prático é implementar os algoritmos HI-ADSD e Vcube,
+   sobre o ambiente de execução do SMPL (Simulation Programming Language)<br>
+   Neste trabalho, consideramos apenas falhas do tipo CRASH, e também a premissa dos algoritmos:
+   'Apenas um evento ocorre de cada vez.'<br><br>
+
+   De modo a facilitar a configuração de eventos no trabalho, o programa tempo.c espera um segundo argumento além do número de nodos.<br>
+   Este segundo argumento é o nome de um arquivo de entrada, que descreverá todos os eventos que o usuário desejar escalonar<br>
+   no programa, através de uma sintaxe muito simples.<br><br>
+
+   Exemplo:<br>
+   <hr>
+    F,1,61.0<br>
+    R,1,91.0
+   <hr>
+   Na linha 1, é escalonado um evento FAULT para o nodo 1 no tempo 61.0.<br>
+   Na linha 2, é escalonado um evento REPAIR para o nodo 1 no tempo 91.0.<br><br>
+
+   Neste trabalho, a execução irá apresentar os eventos que ocorrem, os testes executados por cada nodo e quais
+   as informações obtidas em cada teste.<br>
+
+   O trabalho foi construído sobre o TP1.
+
+   <br><br>
+   Foram utilizadas como funções auxiliares as seguintes:
+   <il>
+    <li>int max(int a, int b) - Que retorna o maior entre dois inteiros.</li>
+    <li>void imprimeNodo(int token) - Que imprime o vetor STATE de um nodo.</li>
+    <li>double maxD(double a, double b) - Que retorna o maior entre dois Double.</li>
+   </il>
+
+   Os Logs de execução e código fonte podem ser encontrados no menu lateral.<br>
+
+ </body>
+<html>
