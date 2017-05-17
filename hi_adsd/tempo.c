@@ -71,36 +71,19 @@ void obtemInfo(int token1, int token2, int testes, node_set* nodos)
  for (int i=testes+1;i<nodos->size;++i)
  {
   nodo_atual = nodos->nodes[i];
-  // Não obtém a informação dos nodos que testou.
-  //if (i!=token1 && (i<token2-testes || i>token2))
-  //{
    if (nodo[token1].STATE[nodo_atual]<nodo[token2].STATE[nodo_atual])
    {
-    if (++contador==N-nodosFalhos)
-    {
-     aviso=1;
-    }
-   }
-   // nodo[token1].STATE[i] = max(nodo[token2].STATE[i], nodo[token1].STATE[i]);
-
-
-   // if(token1 == 0 && token2 == 2) {
-   //  printf("%d: %d > %d?\n", nodo[token1].STATE[i], i, nodo[token2].STATE[i]);
-   // }
-
-   if (nodo[token2].STATE[nodo_atual] > nodo[token1].STATE[nodo_atual]) {
     // Tem novidade!!!!!!!
     if(cont > 0) printf(", %d", nodo_atual);
     else printf("%d", nodo_atual);
     nodo[token1].STATE[nodo_atual] = nodo[token2].STATE[nodo_atual];
     cont++;
+
+    if (++contador==N-nodosFalhos)
+    {
+     aviso=1;
+    }
    }
-  //  if (cont>0)
-  //   printf(", %d", i);
-  //  else
-  //   printf("%d", i);
-  //  cont++;
-  //}
  }
  printf("]\n");
  if (aviso)
