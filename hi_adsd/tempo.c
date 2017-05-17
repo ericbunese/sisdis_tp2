@@ -2,16 +2,18 @@
 
  Trabalho Prático 1
  Sistemas Distribuídos
- Aluno Eric Eduardo Bunese
+ Alunos: Eric Eduardo Bunese, Kaio Augusto de Camargo
  Professor Elias P. Duarte Jr.
 
- Última edição feita em 09/04/2017
+ Última edição feita em 17/05/2017
 
 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "smpl.h"
+#include "cisj.h"
 
 // Eventos
 #define TEST 1
@@ -23,12 +25,13 @@ typedef struct tnodo
 {
  int id;
  int *STATE;
+ int current_iteration;
 }tnodo;
 
 // Vetor de nodos
 tnodo* nodo;
 // Informações gerais da simulação
-static int N, token, event, r, i;
+static int N, token, event, r, i, num_clusters;
 static char fa_name[5];
 double maxTime, tempoEvento;
 int nodosFalhos, contador;
@@ -208,9 +211,11 @@ int main(int argc, char * argv[])
   exit(1);
  }
 
- printf("\n\n====================\nTrabalho Prático 1 de Sistemas Distribuídos\nAutor: Eric Eduardo Bunese\nProfessor: Elias P. Duarte Jr.\n\n");
+ printf("\n\n====================\nTrabalho Prático 1 de Sistemas Distribuídos\nAutores: Eric Eduardo Bunese, Kaio Augusto de Camargo\nProfessor: Elias P. Duarte Jr.\n\n");
 
  N = atoi(argv[1]);
+ num_clusters = (int) ceil(log2(N));
+ printf("[debug] num of clusters: %d\n", num_clusters);
  smpl(0, "Trabalho Prático 1 SisDis");
  reset();
  stream(1);
@@ -222,8 +227,10 @@ int main(int argc, char * argv[])
   sprintf(fa_name, "%d", i);
   nodo[i].id = facility(fa_name, 1);
   nodo[i].STATE = (int*)malloc(sizeof(int)*N);
-  for (int j=0;j<N;++j)
+  for (int j=0;j<N;++j) {
        nodo[i].STATE[j] = -1;
+       nodo[i].current_iteration = 0;
+   }
  }
 
  // Escalonamento de eventos
@@ -242,22 +249,23 @@ int main(int argc, char * argv[])
   {
    case TEST:
      if (status(nodo[token].id) != 0) break;
-     int offset = 1;
+     int offset = 0;
      int token2, st;
+     node_set* nodos = cis(token, nodo[token].current_iteration);
 
      // Testa todos os nodos até encontrar um sem falha.
      do
      {
-      token2 = (token+offset)%N;
-      if (token2!=token)
-      {
-       st = testarNodo(token, token2, offset-1);
-       offset+=1;
-      }
+      //token2 = (token+offset)%N;
+      token2 = nodos->nodes[offset];
+      st = testarNodo(token, token2, offset);
+      offset += 1;
      }
-     while (st!=0 && token2!=token);
+     while (st != 0 && offset < nodos->size);
 
      schedule(TEST, 30.0, token);
+     //O próximo teste, testara o próximo cluster.
+     nodo[token].current_iteration = (nodo[token].current_iteration + 1) % num_clusters;
    break;
 
    case FAULT:
