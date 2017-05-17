@@ -34,7 +34,7 @@ tnodo* nodo;
 static int N, token, event, r, i, num_clusters;
 static char fa_name[5];
 double maxTime, tempoEvento;
-int nodosFalhos, contador;
+int nodosFalhos, contador, num_testes, ja_diagnosticou;
 
 // Imprime o vetor STATE de um nodo.
 void imprimeNodo(int token)
@@ -65,7 +65,6 @@ double maxD(double a, double b)
 void obtemInfo(int token1, int token2, int testes, node_set* nodos)
 {
  int cont=0;
- int aviso=0;
  int nodo_atual;
  printf("O nodo %d obtém informações sobre os seguintes nodos, a partir do nodo %d: [", token1, token2);
  for (int i=testes+1;i<nodos->size;++i)
@@ -79,15 +78,17 @@ void obtemInfo(int token1, int token2, int testes, node_set* nodos)
     nodo[token1].STATE[nodo_atual] = nodo[token2].STATE[nodo_atual];
     cont++;
 
-    if (++contador==N-nodosFalhos)
-    {
-     aviso=1;
-    }
+    ++contador;
+    //printf("\n\n*** Contador atual xd: %d\n", contador);
    }
  }
  printf("]\n");
- if (aviso)
-     printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\n", (int)((time()-tempoEvento)/30.0+1));
+ if (contador==N-nodosFalhos && !ja_diagnosticou)
+ {
+  printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_testes/(double)(N-nodosFalhos))/*(time()-tempoEvento)/30.0+1*/), num_testes);
+  num_testes = 0;
+  ja_diagnosticou = 1;
+ }
 }
 
 // Função que testa um nodo a partir do token do nodo atual
@@ -109,20 +110,29 @@ int testarNodo(int token1, int token2, int testes, node_set* nodos)
   {
    // Se o STATE estiver sem falha, atualiza para com falha.
    if (nodo[token1].STATE[token2] % 2 == 0)
-       ++nodo[token1].STATE[token2];
+   {
+    ++nodo[token1].STATE[token2];
+    contador++;
+   }
   }
   else
   {
    // Se o STATE estiver com falha, atualiza para sem falha.
    if (nodo[token1].STATE[token2] % 2 == 1)
-       ++nodo[token1].STATE[token2];
+   {
+    ++nodo[token1].STATE[token2];
+    contador++;
+   }
   }
  }
 
+ num_testes++;
  printf("O nodo %d TESTOU o nodo %d como %s no tempo %5.1f\n", token1, token2, c, time());
  // Obtem informações do nodo testado
  if (st==0)
-     obtemInfo(token1, token2, testes, nodos);
+ {
+  obtemInfo(token1, token2, testes, nodos);
+ }
 
  imprimeNodo(token1);
  return st;
@@ -182,7 +192,7 @@ void escalona_eventos(char* fname)
     {
      token = atoi(tk);
      delay = atof(dl);
-     maxTime = maxD(maxTime, delay+90.0);
+     maxTime = maxD(maxTime, delay+210.0);
      if (strcmp(op, "F")==0)
      {
       printf("*Evento FAULT escalonado para o nodo %d no tempo %5.1f\n", token, delay);
@@ -209,12 +219,13 @@ int main(int argc, char * argv[])
   exit(1);
  }
 
- printf("\n\n====================\nTrabalho Prático 1 de Sistemas Distribuídos\nAutores: Eric Eduardo Bunese, Kaio Augusto de Camargo\nProfessor: Elias P. Duarte Jr.\n\n");
+ printf("\n\n====================\nTrabalho Prático 2 de Sistemas Distribuídos\nAutores: Eric Eduardo Bunese, Kaio Augusto de Camargo\nProfessor: Elias P. Duarte Jr.\n\n");
 
  N = atoi(argv[1]);
+ ja_diagnosticou = 0;
  num_clusters = (int) ceil(log2(N));
- printf("[debug] num of clusters: %d\n", num_clusters);
- smpl(0, "Trabalho Prático 1 SisDis");
+ printf("Número de Clusters: %d\n", num_clusters);
+ smpl(0, "Trabalho Prático 2 SisDis");
  reset();
  stream(1);
  nodo = (tnodo*)malloc(sizeof(tnodo)*N);
@@ -277,6 +288,7 @@ int main(int argc, char * argv[])
      tempoEvento = time();
      nodosFalhos++;
      contador = 0;
+     ja_diagnosticou = 0;
    break;
 
    case REPAIR:
@@ -286,6 +298,7 @@ int main(int argc, char * argv[])
      tempoEvento = time();
      nodosFalhos--;
      contador = 0;
+     ja_diagnosticou = 0;
    break;
   }
  }

@@ -1,4 +1,3 @@
-->implementar HI_ADSD
 ->implementar VCube
 ->relatório
 ->logs
