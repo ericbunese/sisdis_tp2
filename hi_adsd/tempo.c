@@ -62,30 +62,45 @@ double maxD(double a, double b)
 }
 
 // O nodo token1 obtém informações a partir de token2
-void obtemInfo(int token1, int token2, int testes)
+void obtemInfo(int token1, int token2, int testes, node_set* nodos)
 {
  int cont=0;
  int aviso=0;
+ int nodo_atual;
  printf("O nodo %d obtém informações sobre os seguintes nodos, a partir do nodo %d: [", token1, token2);
- for (int i=0;i<N;++i)
+ for (int i=testes+1;i<nodos->size;++i)
  {
+  nodo_atual = nodos->nodes[i];
   // Não obtém a informação dos nodos que testou.
-  if (i!=token1 && (i<token2-testes || i>token2))
-  {
-   if (nodo[token1].STATE[i]<nodo[token2].STATE[i])
+  //if (i!=token1 && (i<token2-testes || i>token2))
+  //{
+   if (nodo[token1].STATE[nodo_atual]<nodo[token2].STATE[nodo_atual])
    {
     if (++contador==N-nodosFalhos)
     {
      aviso=1;
     }
    }
-   nodo[token1].STATE[i] = max(nodo[token2].STATE[i], nodo[token1].STATE[i]);
-   if (cont>0)
-    printf(", %d", i);
-   else
-    printf("%d", i);
-   cont++;
-  }
+   // nodo[token1].STATE[i] = max(nodo[token2].STATE[i], nodo[token1].STATE[i]);
+
+
+   // if(token1 == 0 && token2 == 2) {
+   //  printf("%d: %d > %d?\n", nodo[token1].STATE[i], i, nodo[token2].STATE[i]);
+   // }
+
+   if (nodo[token2].STATE[nodo_atual] > nodo[token1].STATE[nodo_atual]) {
+    // Tem novidade!!!!!!!
+    if(cont > 0) printf(", %d", nodo_atual);
+    else printf("%d", nodo_atual);
+    nodo[token1].STATE[nodo_atual] = nodo[token2].STATE[nodo_atual];
+    cont++;
+   }
+  //  if (cont>0)
+  //   printf(", %d", i);
+  //  else
+  //   printf("%d", i);
+  //  cont++;
+  //}
  }
  printf("]\n");
  if (aviso)
@@ -93,7 +108,7 @@ void obtemInfo(int token1, int token2, int testes)
 }
 
 // Função que testa um nodo a partir do token do nodo atual
-int testarNodo(int token1, int token2, int testes)
+int testarNodo(int token1, int token2, int testes, node_set* nodos)
 {
  int st = status(nodo[token2].id);
 
@@ -124,7 +139,7 @@ int testarNodo(int token1, int token2, int testes)
  printf("O nodo %d TESTOU o nodo %d como %s no tempo %5.1f\n", token1, token2, c, time());
  // Obtem informações do nodo testado
  if (st==0)
-     obtemInfo(token1, token2, testes);
+     obtemInfo(token1, token2, testes, nodos);
 
  imprimeNodo(token1);
  return st;
@@ -251,14 +266,14 @@ int main(int argc, char * argv[])
      if (status(nodo[token].id) != 0) break;
      int offset = 0;
      int token2, st;
-     node_set* nodos = cis(token, nodo[token].current_iteration);
+     node_set* nodos = cis(token, nodo[token].current_iteration + 1);
 
      // Testa todos os nodos até encontrar um sem falha.
      do
      {
       //token2 = (token+offset)%N;
       token2 = nodos->nodes[offset];
-      st = testarNodo(token, token2, offset);
+      st = testarNodo(token, token2, offset, nodos);
       offset += 1;
      }
      while (st != 0 && offset < nodos->size);
