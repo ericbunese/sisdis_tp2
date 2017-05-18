@@ -67,9 +67,10 @@ void obtemInfo(int token1, int token2, int testes, node_set* nodos)
  int cont=0;
  int nodo_atual;
  printf("O nodo %d obtém informações sobre os seguintes nodos, a partir do nodo %d: [", token1, token2);
- for (int i=testes+1;i<nodos->size;++i)
+ //for (int i=testes+1;i<nodos->size;++i)
+ for (int i=0;i<N;++i)
  {
-  nodo_atual = nodos->nodes[i];
+  nodo_atual = i; //nodos->nodes[i];
    if (nodo[token1].STATE[nodo_atual]<nodo[token2].STATE[nodo_atual])
    {
     // Tem novidade!!!!!!!
