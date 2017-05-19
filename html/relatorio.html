@@ -25,19 +25,33 @@
    Na linha 2, é escalonado um evento REPAIR para o nodo 1 no tempo 91.0.<br><br>
 
    Neste trabalho, a execução irá apresentar os eventos que ocorrem, os testes executados por cada nodo e quais
-   as informações obtidas em cada teste.<br>
+   as informações obtidas em cada teste, outra informação importante é o número de testes executados para diagnosticar um evento.<br>
 
    <hr>
-
-   O trabalho foi construído sobre o TP1. Alterações foram feitas nos procedimentos de teste de nodos e 
-   obtenção de informações; da seguinte forma:<br>
+   <h1>Algoritmo Hi Adsd</h1>
+   O algoritmo Hi-Adsd apresenta uma nova estratégia de testes para melhorar a latência de diagnóstico do algoritmo Adaptive-DSD, de N rodadas de teste, em seu pior caso.
+   Este algoritmo foi construído sobre o algoritmo Adaptive-DSD, desenvolvido para o trabalho prático 1.<br><br>
+   Algumas alterações foram feitas para mudar os testes executados pelos nodos do algoritmo;
    <il>
-    <li>O loop de testes de um nodo foi alterado para usar a função cis invés de testar os nodos iterativamente em caso de nodos falhos sucessivos.</li>
+    <li>O loop de testes de um nodo foi alterado para usar a função CIS invés de testar os nodos iterativamente em caso de nodos falhos sucessivos.</li>
     <li>As funções "obtemInfo" e "testarNodo" foram alteradas para só buscar informações de diagnóstico de novidades deste o último teste. </li>
     <li>A estrutura de um nodo foi alterada para conter a informação de qual foi o último cluster testado.</li>
    </il>
+   <br>
 
-   <br><br>
+   <hr>
+   <h1>Algoritmo VCube</h1>
+   O algoritmo VCube apresenta uma nova estratégia de testes para reduzir o número de testes do algoritmo Hi-Adsd, que é de ordem n^2 em seu pior caso. O VCube garante que apenas um nodo de um cluster é testado por apenas um nodo único testador de cada cluster. Assim, garantindo um máximo de N.Log2(N) testes.
+   Este algoritmo foi construído sobre o algoritmo Hi Adsd, desenvolvido para o trabalho prático 2.<br><br>
+   Algumas alterações foram feitas para mudar os testes executados pelos nodos do algoritmo;
+   <il>
+     <li>A função auxiliar int is_node_faulty(int token1, int token2) verifica se um nodo está falho a partir do vetor STATE de outro nodo.</li>
+     <li>A função auxiliar int is_testador(int testador, int testado) retorna se um nodo é testador de outro nodo em dado momento.</li>
+     <li>O loop de testes de um nodo foi alterado para usar a função CIS para descobrir qual nodo deve ser testado.</li>
+   </il>
+
+   <hr>
+   <h1>Geral</h1>
    Foram utilizadas como funções auxiliares as seguintes:
    <il>
     <li>int max(int a, int b) - Que retorna o maior entre dois inteiros.</li>

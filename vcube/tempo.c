@@ -1,12 +1,13 @@
 /*
 
-   Trabalho Prático 1
-   Sistemas Distribuídos
+  Trabalho Prático 1
+  Sistemas Distribuídos
 	Alunos: Eric Eduardo Bunese, Kaio Augusto de Camargo
 	Professor Elias P. Duarte Jr.
 
 	Última edição feita em 17/05/2017
 
+	Algoritmo VCube
 */
 
 #include <stdio.h>
