@@ -1,0 +1,130 @@
+
+
+====================
+Trabalho Prático 2 de Sistemas Distribuídos
+Autores: Eric Eduardo Bunese, Kaio Augusto de Camargo
+Professor: Elias P. Duarte Jr.
+
+Número de Clusters: 2
+*Evento FAULT escalonado para o nodo 2 no tempo  61.0
+*Evento FAULT escalonado para o nodo 3 no tempo  61.0
+
+====================
+Inicializando Simulação
+====================
+
+O nodo 0 TESTOU o nodo 1 como SEM FALHA no tempo  30.0
+O nodo 0 obtém informações sobre os seguintes nodos, a partir do nodo 1: []
+Vetor STATE do nodo 0: [ 0, 0, -1, -1 ]
+
+O nodo 1 TESTOU o nodo 0 como SEM FALHA no tempo  30.0
+O nodo 1 obtém informações sobre os seguintes nodos, a partir do nodo 0: []
+Vetor STATE do nodo 1: [ 0, 0, -1, -1 ]
+
+O nodo 2 TESTOU o nodo 3 como SEM FALHA no tempo  30.0
+O nodo 2 obtém informações sobre os seguintes nodos, a partir do nodo 3: []
+Vetor STATE do nodo 2: [ -1, -1, 0, 0 ]
+
+O nodo 3 TESTOU o nodo 2 como SEM FALHA no tempo  30.0
+O nodo 3 obtém informações sobre os seguintes nodos, a partir do nodo 2: []
+Vetor STATE do nodo 3: [ -1, -1, 0, 0 ]
+
+O nodo 0 TESTOU o nodo 2 como SEM FALHA no tempo  60.0
+O nodo 0 obtém informações sobre os seguintes nodos, a partir do nodo 2: [3]
+Vetor STATE do nodo 0: [ 0, 0, 0, 0 ]
+
+O nodo 1 TESTOU o nodo 3 como SEM FALHA no tempo  60.0
+O nodo 1 obtém informações sobre os seguintes nodos, a partir do nodo 3: [2]
+Vetor STATE do nodo 1: [ 0, 0, 0, 0 ]
+
+O nodo 2 TESTOU o nodo 0 como SEM FALHA no tempo  60.0
+O nodo 2 obtém informações sobre os seguintes nodos, a partir do nodo 0: [1]
+Vetor STATE do nodo 2: [ 0, 0, 0, 0 ]
+
+O nodo 3 TESTOU o nodo 1 como SEM FALHA no tempo  60.0
+O nodo 3 obtém informações sobre os seguintes nodos, a partir do nodo 1: [0]
+Evento diagnosticado.
+Atraso: 2 rodadas de testes.
+Número de testes: 8
+Vetor STATE do nodo 3: [ 0, 0, 0, 0 ]
+
+O nodo 2 FALHOU no tempo  61.0
+O nodo 3 FALHOU no tempo  61.0
+O nodo 0 TESTOU o nodo 1 como SEM FALHA no tempo  90.0
+O nodo 0 obtém informações sobre os seguintes nodos, a partir do nodo 1: []
+Vetor STATE do nodo 0: [ 0, 0, 0, 0 ]
+
+O nodo 1 TESTOU o nodo 0 como SEM FALHA no tempo  90.0
+O nodo 1 obtém informações sobre os seguintes nodos, a partir do nodo 0: []
+Vetor STATE do nodo 1: [ 0, 0, 0, 0 ]
+
+O nodo 0 TESTOU o nodo 2 como FALHO no tempo 120.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 0 ]
+
+O nodo 0 TESTOU o nodo 3 como FALHO no tempo 120.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 3 como FALHO no tempo 120.0
+Vetor STATE do nodo 1: [ 0, 0, 0, 1 ]
+
+O nodo 1 TESTOU o nodo 2 como FALHO no tempo 120.0
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 1 como SEM FALHA no tempo 150.0
+O nodo 0 obtém informações sobre os seguintes nodos, a partir do nodo 1: []
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 0 como SEM FALHA no tempo 150.0
+O nodo 1 obtém informações sobre os seguintes nodos, a partir do nodo 0: []
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 2 como FALHO no tempo 180.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 3 como FALHO no tempo 180.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 3 como FALHO no tempo 180.0
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 2 como FALHO no tempo 180.0
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 1 como SEM FALHA no tempo 210.0
+O nodo 0 obtém informações sobre os seguintes nodos, a partir do nodo 1: []
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 0 como SEM FALHA no tempo 210.0
+O nodo 1 obtém informações sobre os seguintes nodos, a partir do nodo 0: []
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 2 como FALHO no tempo 240.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 3 como FALHO no tempo 240.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 3 como FALHO no tempo 240.0
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 2 como FALHO no tempo 240.0
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 1 como SEM FALHA no tempo 270.0
+O nodo 0 obtém informações sobre os seguintes nodos, a partir do nodo 1: []
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 1 TESTOU o nodo 0 como SEM FALHA no tempo 270.0
+O nodo 1 obtém informações sobre os seguintes nodos, a partir do nodo 0: []
+Vetor STATE do nodo 1: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 2 como FALHO no tempo 300.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+O nodo 0 TESTOU o nodo 3 como FALHO no tempo 300.0
+Vetor STATE do nodo 0: [ 0, 0, 1, 1 ]
+
+
+
+Encerrando Simulação
+
