@@ -37,7 +37,8 @@ static int N, token, event, r, i, num_clusters;
 static node_set ***cis_nodos;
 static char fa_name[5];
 static double maxTime, tempoEvento;
-static int nodosFalhos, contador, num_testes, ja_diagnosticou;
+static int nodosFalhos, contador, num_testes, ja_diagnosticou, is_on_warmup;;
+static int num_of_cluster_testados;
 
 // Imprime o vetor STATE de um nodo.
 void imprimeNodo(int token)
@@ -104,9 +105,9 @@ void obtemInfo(int token1, int token2, int testes)
 		}
 	}
 	printf("]\n");
-	if (contador==N-nodosFalhos && !ja_diagnosticou)
+	if (contador==N-nodosFalhos && !ja_diagnosticou && !is_on_warmup)
 	{
-		printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_testes/(double)(N-nodosFalhos))/*(time()-tempoEvento)/30.0+1*/), num_testes);
+		printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_of_cluster_testados/(double)(N-nodosFalhos)/num_clusters)/*(time()-tempoEvento)/30.0+1*/), num_testes);
 		num_testes = 0;
 		ja_diagnosticou = 1;
 	}
@@ -153,6 +154,11 @@ int testarNodo(int token1, int token2, int testes)
 	if (st==0)
 	{
 		obtemInfo(token1, token2, testes);
+	} else if (contador==N-nodosFalhos && !ja_diagnosticou && !is_on_warmup)
+	{
+		printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_of_cluster_testados/(double)(N-nodosFalhos)/num_clusters)/*(time()-tempoEvento)/30.0+1*/), num_testes);
+		num_testes = 0;
+		ja_diagnosticou = 1;
 	}
 
 	imprimeNodo(token1);
@@ -244,6 +250,8 @@ int main(int argc, char * argv[])
 
 	N = atoi(argv[1]);
 	ja_diagnosticou = 0;
+    is_on_warmup = 1;
+    num_of_cluster_testados = 0;
 	num_clusters = (int) ceil(log2(N));
 	printf("Número de Clusters: %d\n", num_clusters);
 	smpl(0, "Trabalho Prático 2 SisDis");
@@ -286,17 +294,15 @@ int main(int argc, char * argv[])
 		{
 			case TEST:
 				if (status(nodo[token].id) != 0) break;
-				int did_test = 0;
                 node_set *cis_teste = cis(token, nodo[token].current_cluster+1);
 
-				while(!did_test) {
+                do {
 				    int st;
                     int token2 = cis_teste->nodes[nodo[token].current_node];
 					// Enquanto o nodo não achou o próximo nodo que deve testar,
 					// continua procurando o mesmo na tabela do cis.
                     if(token != token2 && is_testador(token, token2)) {
                         testarNodo(token, token2, num_testes);
-                        did_test = 1;
                     }
                     nodo[token].current_node++;
                     nodo[token].current_node %= cis_teste->size;
@@ -307,9 +313,10 @@ int main(int argc, char * argv[])
                         // e recalcula o CIS
                         cis_teste = cis(token, nodo[token].current_cluster+1);
                     }
-				}
+				} while(nodo[token].current_node != 0); // Enquanto não chegar ao fim do cluster, continua testando.
 				// Testa todos os nodos até encontrar um sem falha.
 				schedule(TEST, 30.0, token);
+                num_of_cluster_testados++;
 				break;
 
 			case FAULT:
@@ -324,6 +331,8 @@ int main(int argc, char * argv[])
 				nodosFalhos++;
 				contador = 0;
 				ja_diagnosticou = 0;
+                num_of_cluster_testados = 0;
+                is_on_warmup = 0;
 				break;
 
 			case REPAIR:
@@ -334,6 +343,8 @@ int main(int argc, char * argv[])
 				nodosFalhos--;
 				contador = 0;
 				ja_diagnosticou = 0;
+                is_on_warmup = 0;
+                num_of_cluster_testados = 0;
 				break;
 		}
 	}

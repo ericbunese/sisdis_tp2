@@ -41,13 +41,15 @@
 
    <hr>
    <h1>Algoritmo VCube</h1>
-   O algoritmo VCube apresenta uma nova estratégia de testes para reduzir o número de testes do algoritmo Hi-Adsd, que é de ordem n^2 em seu pior caso. O VCube garante que apenas um nodo de um cluster é testado por apenas um nodo único testador de cada cluster. Assim, garantindo um máximo de N.Log2(N) testes.
+   O algoritmo VCube apresenta uma nova estratégia de testes para reduzir o número de testes do algoritmo Hi-Adsd, que é de ordem N^2. em seu pior caso. O VCube garante que apenas um nodo de um cluster é testado por apenas um nodo único testador de cada cluster. Assim, garantindo um máximo de N.Log2(N) testes.
    Este algoritmo foi construído sobre o algoritmo Hi Adsd, desenvolvido para o trabalho prático 2.<br><br>
    Algumas alterações foram feitas para mudar os testes executados pelos nodos do algoritmo;
    <il>
      <li>A função auxiliar int is_node_faulty(int token1, int token2) verifica se um nodo está falho a partir do vetor STATE de outro nodo.</li>
      <li>A função auxiliar int is_testador(int testador, int testado) retorna se um nodo é testador de outro nodo em dado momento.</li>
      <li>O loop de testes de um nodo foi alterado para usar a função CIS para descobrir qual nodo deve ser testado.</li>
+     <li>Durante um evento "TEST", o nodo irá realizar TODOS os testes que ele precisa em um cluster, ou seja, ele pode realizar mais de um teste.
+     Isso foi feito para facilitar o cálculo de rodadas de teste necessárias para diagnosticar um evento.</li>
    </il>
 
    <hr>

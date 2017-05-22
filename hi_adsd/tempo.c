@@ -35,7 +35,7 @@ tnodo* nodo;
 static int N, token, event, r, i, num_clusters;
 static char fa_name[5];
 double maxTime, tempoEvento;
-int nodosFalhos, contador, num_testes, ja_diagnosticou;
+int nodosFalhos, contador, num_testes, ja_diagnosticou, is_on_warmup;
 
 // Imprime o vetor STATE de um nodo.
 void imprimeNodo(int token)
@@ -81,13 +81,12 @@ void obtemInfo(int token1, int token2, int testes, node_set* nodos)
     cont++;
 
     ++contador;
-    //printf("\n\n*** Contador atual xd: %d\n", contador);
    }
  }
  printf("]\n");
- if (contador==N-nodosFalhos && !ja_diagnosticou)
+ if (contador==N-nodosFalhos && !ja_diagnosticou && !is_on_warmup)
  {
-  printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_testes/(double)(N-nodosFalhos))/*(time()-tempoEvento)/30.0+1*/), num_testes);
+  printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_testes/(double)(N-nodosFalhos)/num_clusters)/*(time()-tempoEvento)/30.0+1*/), num_testes);
   num_testes = 0;
   ja_diagnosticou = 1;
  }
@@ -134,6 +133,11 @@ int testarNodo(int token1, int token2, int testes, node_set* nodos)
  if (st==0)
  {
   obtemInfo(token1, token2, testes, nodos);
+ } else if (contador==N-nodosFalhos && !ja_diagnosticou && !is_on_warmup)
+ {
+  printf("Evento diagnosticado.\nAtraso: %d rodadas de testes.\nNúmero de testes: %d\n", (int)(ceil((double)num_testes/(double)(N-nodosFalhos)/num_clusters)/*(time()-tempoEvento)/30.0+1*/), num_testes);
+  num_testes = 0;
+  ja_diagnosticou = 1;
  }
 
  imprimeNodo(token1);
@@ -225,6 +229,7 @@ int main(int argc, char * argv[])
 
  N = atoi(argv[1]);
  ja_diagnosticou = 0;
+ is_on_warmup = 1;
  num_clusters = (int) ceil(log2(N));
  printf("Número de Clusters: %d\n", num_clusters);
  smpl(0, "Trabalho Prático 2 SisDis");
@@ -291,6 +296,7 @@ int main(int argc, char * argv[])
      nodosFalhos++;
      contador = 0;
      ja_diagnosticou = 0;
+     is_on_warmup = 0;
    break;
 
    case REPAIR:
@@ -301,6 +307,7 @@ int main(int argc, char * argv[])
      nodosFalhos--;
      contador = 0;
      ja_diagnosticou = 0;
+     is_on_warmup = 0;
    break;
   }
  }
